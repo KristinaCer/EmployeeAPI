@@ -17,7 +17,6 @@ namespace EmployeeAPI.Controllers
             this.employeeService = employeeService;
         }
 
-        [Route("GetAll")]
         public IActionResult Get()
         {
             return Ok(this.employeeService.GetAllEmployees());

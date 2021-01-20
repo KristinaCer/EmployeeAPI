@@ -17,7 +17,7 @@ namespace EmployeeAPI.Services
         {
         }
 
-        public Task<List<Employee>> AddEmployee(Employee employee)
+        public List<Employee> AddEmployee(Employee employee)
         {
             throw new NotImplementedException();
         }
