@@ -7,11 +7,10 @@ namespace EmployeeAPI.Services
 {
     public interface IEmployeeService
     {
-        Task<List<Employee>> GetAllEmployees();
-        Task<Employee> GetEmployeeById(int id);
-        Task<List<Employee>> AddEmployee(Employee employee);
-        Task<List<Employee>> UpdateEmployee(Employee employee);
-        Task<List<Employee>> DeleteEmployee(Employee employee);
-
+        Task<ServiceResponse<List<Employee>>> GetAllEmployees();
+        Task<ServiceResponse<Employee>> GetEmployeeById(int id);
+        Task<ServiceResponse<List<Employee>>> AddEmployee(Employee employee);
+        Task<ServiceResponse<List<Employee>>> UpdateEmployee(Employee employee);
+        Task<ServiceResponse<List<Employee>>> DeleteEmployee(Employee employee);
     }
 }

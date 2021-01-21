@@ -15,7 +15,7 @@ namespace EmployeeAPI.Controllers
         {
             this.employeeService = employeeService;
         }
-
+        [Route("GetAll")]
         public async Task<IActionResult> Get()
         {
             return Ok(await this.employeeService.GetAllEmployees());

@@ -18,30 +18,37 @@ namespace EmployeeAPI.Services
         {
         }
 
-        public async Task<List<Employee>> AddEmployee(Employee employee)
+        public async Task<ServiceResponse<List<Employee>>> AddEmployee(Employee newEmployee)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<Employee>> DeleteEmployee(Employee employee)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<Employee>> GetAllEmployees()
-        {
-            return employees;
-        }
-
-        public async Task<Employee> GetEmployeeById(int id)
-        {
-            return employees.FirstOrDefault(c => c.Id == id);
-        }
-
-        public async Task<List<Employee>> UpdateEmployee(Employee newEmployee)
-        {
+            ServiceResponse<List<Employee>> serviceResponse = new ServiceResponse<List<Employee>>();
             employees.Add(newEmployee);
-            return employees;
+            serviceResponse.Data = employees;
+            return serviceResponse;
+
+        }
+
+        public async Task<ServiceResponse<List<Employee>>> DeleteEmployee(Employee employee)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ServiceResponse<List<Employee>>> GetAllEmployees()
+        {
+            ServiceResponse<List<Employee>> serviceResponse = new ServiceResponse<List<Employee>>();
+            serviceResponse.Data = employees;
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<Employee>> GetEmployeeById(int id)
+        {
+            ServiceResponse<Employee> serviceResponse = new ServiceResponse<Employee>();
+            serviceResponse.Data = employees.FirstOrDefault(c => c.Id == id);
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<List<Employee>>> UpdateEmployee(Employee newEmployee)
+        {
+            throw new NotImplementedException();
         }
     }
 }
