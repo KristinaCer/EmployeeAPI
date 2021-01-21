@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using EmployeeAPI.Dtos;
 using EmployeeAPI.Models;
 
 namespace EmployeeAPI.Services
@@ -13,37 +15,39 @@ namespace EmployeeAPI.Services
             new Employee(),
             new Employee{ FirstName = "Jonas", LastName = "Jonaitis" }
         };
+        private readonly IMapper mapper;
 
-        public EmployeeService()
+        public EmployeeService(IMapper mapper)
         {
+            this.mapper = mapper;
         }
 
-        public async Task<ServiceResponse<List<Employee>>> AddEmployee(Employee newEmployee)
+        public async Task<ServiceResponse<List<GetEmployeeDto>>> AddEmployee(AddEmployeeDto newEmployee)
         {
-            ServiceResponse<List<Employee>> serviceResponse = new ServiceResponse<List<Employee>>();
-            employees.Add(newEmployee);
-            serviceResponse.Data = employees;
+            ServiceResponse<List<GetEmployeeDto>> serviceResponse = new ServiceResponse<List<GetEmployeeDto>>();
+            employees.Add(this.mapper.Map<Employee>(newEmployee));
+            serviceResponse.Data = (employees.Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
             return serviceResponse;
 
+        }
+
+        public async Task<ServiceResponse<List<GetEmployeeDto>>> GetAllEmployees()
+        {
+            ServiceResponse<List<GetEmployeeDto>> serviceResponse = new ServiceResponse<List<GetEmployeeDto>>();
+            serviceResponse.Data = (employees.Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetEmployeeDto>> GetEmployeeById(int id)
+        {
+            ServiceResponse<GetEmployeeDto> serviceResponse = new ServiceResponse<GetEmployeeDto>();
+            serviceResponse.Data = this.mapper.Map<GetEmployeeDto>(employees.FirstOrDefault(c => c.Id == id));
+            return serviceResponse;
         }
 
         public async Task<ServiceResponse<List<Employee>>> DeleteEmployee(Employee employee)
         {
             throw new NotImplementedException();
-        }
-
-        public async Task<ServiceResponse<List<Employee>>> GetAllEmployees()
-        {
-            ServiceResponse<List<Employee>> serviceResponse = new ServiceResponse<List<Employee>>();
-            serviceResponse.Data = employees;
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<Employee>> GetEmployeeById(int id)
-        {
-            ServiceResponse<Employee> serviceResponse = new ServiceResponse<Employee>();
-            serviceResponse.Data = employees.FirstOrDefault(c => c.Id == id);
-            return serviceResponse;
         }
 
         public async Task<ServiceResponse<List<Employee>>> UpdateEmployee(Employee newEmployee)

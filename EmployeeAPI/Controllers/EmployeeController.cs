@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using EmployeeAPI.Dtos;
 using EmployeeAPI.Models;
 using EmployeeAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ namespace EmployeeAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddEmployee(Employee newEmployee)
+        public async Task<IActionResult> AddEmployee(AddEmployeeDto newEmployee)
         {
             return Ok(await this.employeeService.AddEmployee(newEmployee));
         }       
