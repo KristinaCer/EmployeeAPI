@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using EmployeeAPI.Dtos;
-using EmployeeAPI.Models;
 using EmployeeAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 

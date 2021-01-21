@@ -45,14 +45,20 @@ namespace EmployeeAPI.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<Employee>>> DeleteEmployee(Employee employee)
+        public async Task<ServiceResponse<GetEmployeeDto>> DeleteEmployee(Employee employee)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ServiceResponse<List<Employee>>> UpdateEmployee(Employee newEmployee)
+        public async Task<ServiceResponse<GetEmployeeDto>> UpdateEmployee(UpdateEmployeeDto updatedEmployee)
         {
-            throw new NotImplementedException();
+            ServiceResponse<GetEmployeeDto> serviceResponse = new ServiceResponse<GetEmployeeDto>();
+            Employee employee = employees.FirstOrDefault(c => c.Id == updatedEmployee.Id);
+            employee.FirstName = updatedEmployee.FirstName;
+            employee.LastName = updatedEmployee.LastName;
+            employee.BirthDate = updatedEmployee.BirthDate;
+            serviceResponse.Data = this.mapper.Map<GetEmployeeDto>(employee);
+            return serviceResponse;
         }
     }
 }
