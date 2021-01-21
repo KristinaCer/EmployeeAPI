@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Threading.Tasks;
 using EmployeeAPI.Models;
 using EmployeeAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -17,22 +16,21 @@ namespace EmployeeAPI.Controllers
             this.employeeService = employeeService;
         }
 
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(this.employeeService.GetAllEmployees());
+            return Ok(await this.employeeService.GetAllEmployees());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetSingle(int id)
+        public async Task<IActionResult> GetSingle(int id)
         {
-            return Ok(this.employeeService.GetEmployeeById(id));
+            return Ok(await this.employeeService.GetEmployeeById(id));
         }
 
         [HttpPost]
-        public IActionResult AddEmployee(Employee newEmployee)
+        public async Task<IActionResult> AddEmployee(Employee newEmployee)
         {
-            return Ok(this.employeeService.AddEmployee(newEmployee));
-        }
-       
+            return Ok(await this.employeeService.AddEmployee(newEmployee));
+        }       
     }
 }

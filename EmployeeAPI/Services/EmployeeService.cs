@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using EmployeeAPI.Models;
 
 namespace EmployeeAPI.Services
@@ -17,27 +18,27 @@ namespace EmployeeAPI.Services
         {
         }
 
-        public List<Employee> AddEmployee(Employee employee)
+        public async Task<List<Employee>> AddEmployee(Employee employee)
         {
             throw new NotImplementedException();
         }
 
-        public List<Employee> DeleteEmployee(Employee employee)
+        public async Task<List<Employee>> DeleteEmployee(Employee employee)
         {
             throw new NotImplementedException();
         }
 
-        public List<Employee> GetAllEmployees()
+        public async Task<List<Employee>> GetAllEmployees()
         {
             return employees;
         }
 
-        public Employee GetEmployeeById(int id)
+        public async Task<Employee> GetEmployeeById(int id)
         {
             return employees.FirstOrDefault(c => c.Id == id);
         }
 
-        public List<Employee> UpdateEmployee(Employee newEmployee)
+        public async Task<List<Employee>> UpdateEmployee(Employee newEmployee)
         {
             employees.Add(newEmployee);
             return employees;

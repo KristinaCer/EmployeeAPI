@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using EmployeeAPI.Models;
 
 namespace EmployeeAPI.Services
 {
     public interface IEmployeeService
     {
-        List<Employee> GetAllEmployees();
-        Employee GetEmployeeById(int id);
-        List<Employee> AddEmployee(Employee employee);
-        List<Employee> UpdateEmployee(Employee employee);
-        List<Employee> DeleteEmployee(Employee employee);
+        Task<List<Employee>> GetAllEmployees();
+        Task<Employee> GetEmployeeById(int id);
+        Task<List<Employee>> AddEmployee(Employee employee);
+        Task<List<Employee>> UpdateEmployee(Employee employee);
+        Task<List<Employee>> DeleteEmployee(Employee employee);
 
     }
 }
