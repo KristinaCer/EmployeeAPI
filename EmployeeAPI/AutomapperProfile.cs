@@ -10,6 +10,7 @@ namespace EmployeeAPI
         public AutomapperProfile()
         {
             CreateMap<Employee, GetEmployeeDto>();
+            CreateMap<AddEmployeeDto, Employee>();
         }
     }
 }

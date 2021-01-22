@@ -3,7 +3,7 @@ namespace EmployeeAPI.Dtos
 {
     public class AddEmployeeDto
     {
-        public string FirstName { get; set; } = "Kristina";
+        public string FirstName { get; set; } 
         public string LastName { get; set; } = "Cer";
         public DateTime BirthDate { get; set; }
         public DateTime EmploymentDate { get; set; }

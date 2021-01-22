@@ -3,7 +3,7 @@ namespace EmployeeAPI.Models
 {
     public class Employee
     {
-        public int Id { get; set; } = 0;
+        public int Id { get; set; } 
         public string FirstName { get; set; } = "Kristina";
         public string LastName { get; set; } = "Cer";
         public DateTime BirthDate { get; set; }

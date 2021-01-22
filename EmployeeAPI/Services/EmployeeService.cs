@@ -13,7 +13,7 @@ namespace EmployeeAPI.Services
         private static List<Employee> employees = new List<Employee>
         {
             new Employee(),
-            new Employee{ FirstName = "Jonas", LastName = "Jonaitis" }
+            new Employee{ Id = 1, FirstName = "Jonas", LastName = "Jonaitis" }
         };
         private readonly IMapper mapper;
 
@@ -25,7 +25,9 @@ namespace EmployeeAPI.Services
         public async Task<ServiceResponse<List<GetEmployeeDto>>> AddEmployee(AddEmployeeDto newEmployee)
         {
             ServiceResponse<List<GetEmployeeDto>> serviceResponse = new ServiceResponse<List<GetEmployeeDto>>();
-            employees.Add(this.mapper.Map<Employee>(newEmployee));
+            Employee employee = this.mapper.Map<Employee>(newEmployee);
+            employee.Id = employees.Max(c => c.Id) + 1;
+            employees.Add(employee);
             serviceResponse.Data = (employees.Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
             return serviceResponse;
 
@@ -53,11 +55,22 @@ namespace EmployeeAPI.Services
         public async Task<ServiceResponse<GetEmployeeDto>> UpdateEmployee(UpdateEmployeeDto updatedEmployee)
         {
             ServiceResponse<GetEmployeeDto> serviceResponse = new ServiceResponse<GetEmployeeDto>();
-            Employee employee = employees.FirstOrDefault(c => c.Id == updatedEmployee.Id);
-            employee.FirstName = updatedEmployee.FirstName;
-            employee.LastName = updatedEmployee.LastName;
-            employee.BirthDate = updatedEmployee.BirthDate;
-            serviceResponse.Data = this.mapper.Map<GetEmployeeDto>(employee);
+            try
+            {
+                Employee employee = employees.FirstOrDefault(c => c.Id == updatedEmployee.Id);
+                employee.FirstName = updatedEmployee.FirstName;
+                employee.LastName = updatedEmployee.LastName;
+                employee.BirthDate = updatedEmployee.BirthDate;
+                employee.EmploymentDate = updatedEmployee.EmploymentDate;
+                employee.HomeAddress = updatedEmployee.HomeAddress;
+                employee.Boss = updatedEmployee.Boss;
+                employee.CurrentSalary = updatedEmployee.CurrentSalary;
+                serviceResponse.Data = this.mapper.Map<GetEmployeeDto>(employee);
+            } catch(Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
             return serviceResponse;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using EmployeeAPI.Dtos;
+using EmployeeAPI.Models;
 using EmployeeAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ namespace EmployeeAPI.Controllers
         {
             this.employeeService = employeeService;
         }
-        [Route("GetAll")]
+       // [Route("GetAll")]
         public async Task<IActionResult> Get()
         {
             return Ok(await this.employeeService.GetAllEmployees());
@@ -31,6 +32,17 @@ namespace EmployeeAPI.Controllers
         public async Task<IActionResult> AddEmployee(AddEmployeeDto newEmployee)
         {
             return Ok(await this.employeeService.AddEmployee(newEmployee));
-        }       
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateEmployee(UpdateEmployeeDto newEmployee)
+        {
+            ServiceResponse<GetEmployeeDto> serviceResponse = await this.employeeService.UpdateEmployee(newEmployee);
+            if (serviceResponse.Data == null)
+            {
+                return NotFound(serviceResponse);
+            }
+            return Ok(serviceResponse);
+        }
     }
 }
