@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using EmployeeAPI.Dtos;
 using EmployeeAPI.Models;
 using EmployeeAPI.Services;
@@ -43,6 +44,17 @@ namespace EmployeeAPI.Controllers
                 return NotFound(serviceResponse);
             }
             return Ok(serviceResponse);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            ServiceResponse<List<GetEmployeeDto>> response = await this.employeeService.DeleteEmployee(id);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
     }
 }

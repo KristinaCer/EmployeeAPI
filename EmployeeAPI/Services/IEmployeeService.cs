@@ -11,6 +11,6 @@ namespace EmployeeAPI.Services
         Task<ServiceResponse<GetEmployeeDto>> GetEmployeeById(int id);
         Task<ServiceResponse<List<GetEmployeeDto>>> AddEmployee(AddEmployeeDto employee);
         Task<ServiceResponse<GetEmployeeDto>> UpdateEmployee(UpdateEmployeeDto employee);
-        Task<ServiceResponse<GetEmployeeDto>> DeleteEmployee(Employee employee);
+        Task<ServiceResponse<List<GetEmployeeDto>>> DeleteEmployee(int id);
     }
 }

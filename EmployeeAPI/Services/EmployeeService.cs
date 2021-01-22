@@ -47,9 +47,20 @@ namespace EmployeeAPI.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetEmployeeDto>> DeleteEmployee(Employee employee)
+        public async Task<ServiceResponse<List<GetEmployeeDto>>> DeleteEmployee(int id)
         {
-            throw new NotImplementedException();
+            ServiceResponse<List<GetEmployeeDto>> serviceResponse = new ServiceResponse<List<GetEmployeeDto>>();
+            try
+            {
+                Employee employee = employees.First(c => c.Id == id);
+                employees.Remove(employee);
+                serviceResponse.Data = (employees.Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
+            } catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
         }
 
         public async Task<ServiceResponse<GetEmployeeDto>> UpdateEmployee(UpdateEmployeeDto updatedEmployee)
