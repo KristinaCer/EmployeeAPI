@@ -8,9 +8,15 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Services\" />
+    <Folder Include="SolutionData\" />
   </ItemGroup>
 
 
   <ItemGroup>
-<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />  </ItemGroup>
+<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.2">
+  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+  <PrivateAssets>all</PrivateAssets>
+</PackageReference>
+<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.2" />  </ItemGroup>
 </Project>
