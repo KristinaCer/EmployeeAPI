@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EmployeeAPI.Dtos;
 using EmployeeAPI.Models;
+using EmployeeAPI.SolutionData;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeAPI.Services
 {
@@ -16,18 +18,19 @@ namespace EmployeeAPI.Services
             new Employee{ Id = 1, FirstName = "Jonas", LastName = "Jonaitis" }
         };
         private readonly IMapper mapper;
+        private readonly DataContext context;
 
-        public EmployeeService(IMapper mapper)
+        public EmployeeService(IMapper mapper, DataContext context)
         {
             this.mapper = mapper;
+            this.context = context;
         }
 
         public async Task<ServiceResponse<List<GetEmployeeDto>>> AddEmployee(AddEmployeeDto newEmployee)
         {
             ServiceResponse<List<GetEmployeeDto>> serviceResponse = new ServiceResponse<List<GetEmployeeDto>>();
             Employee employee = this.mapper.Map<Employee>(newEmployee);
-            employee.Id = employees.Max(c => c.Id) + 1;
-            employees.Add(employee);
+
             serviceResponse.Data = (employees.Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
             return serviceResponse;
 
@@ -36,7 +39,8 @@ namespace EmployeeAPI.Services
         public async Task<ServiceResponse<List<GetEmployeeDto>>> GetAllEmployees()
         {
             ServiceResponse<List<GetEmployeeDto>> serviceResponse = new ServiceResponse<List<GetEmployeeDto>>();
-            serviceResponse.Data = (employees.Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
+            List<Employee> dbEmployees = await this.context.Employees.ToListAsync();
+            serviceResponse.Data = (dbEmployees.Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
             return serviceResponse;
         }
 
