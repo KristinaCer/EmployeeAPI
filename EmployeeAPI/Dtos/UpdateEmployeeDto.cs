@@ -2,7 +2,7 @@
 namespace EmployeeAPI.Dtos
 {
     public class UpdateEmployeeDto
-    { 
+    {
         public int Id { get; set; } = 0;
         public string FirstName { get; set; } = "Kristina";
         public string LastName { get; set; } = "Cer";

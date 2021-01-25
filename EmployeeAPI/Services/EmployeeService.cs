@@ -11,12 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EmployeeAPI.Services
 {
     public class EmployeeService : IEmployeeService
-    {
-        private static List<Employee> employees = new List<Employee>
-        {
-            new Employee(),
-            new Employee{ Id = 1, FirstName = "Jonas", LastName = "Jonaitis" }
-        };
+    { 
         private readonly IMapper mapper;
         private readonly DataContext context;
 
@@ -30,10 +25,10 @@ namespace EmployeeAPI.Services
         {
             ServiceResponse<List<GetEmployeeDto>> serviceResponse = new ServiceResponse<List<GetEmployeeDto>>();
             Employee employee = this.mapper.Map<Employee>(newEmployee);
-
-            serviceResponse.Data = (employees.Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
+            await this.context.Employees.AddAsync(employee);
+            await this.context.SaveChangesAsync();
+            serviceResponse.Data = (this.context.Employees.Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
             return serviceResponse;
-
         }
 
         public async Task<ServiceResponse<List<GetEmployeeDto>>> GetAllEmployees()
@@ -47,7 +42,8 @@ namespace EmployeeAPI.Services
         public async Task<ServiceResponse<GetEmployeeDto>> GetEmployeeById(int id)
         {
             ServiceResponse<GetEmployeeDto> serviceResponse = new ServiceResponse<GetEmployeeDto>();
-            serviceResponse.Data = this.mapper.Map<GetEmployeeDto>(employees.FirstOrDefault(c => c.Id == id));
+            Employee dbEmployee = await this.context.Employees.FirstOrDefaultAsync(c => c.Id == id);
+            serviceResponse.Data = this.mapper.Map<GetEmployeeDto>(dbEmployee);
             return serviceResponse;
         }
 
@@ -56,9 +52,10 @@ namespace EmployeeAPI.Services
             ServiceResponse<List<GetEmployeeDto>> serviceResponse = new ServiceResponse<List<GetEmployeeDto>>();
             try
             {
-                Employee employee = employees.First(c => c.Id == id);
-                employees.Remove(employee);
-                serviceResponse.Data = (employees.Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
+                Employee employee = await this.context.Employees.FirstAsync(c => c.Id == id);
+                this.context.Employees.Remove(employee);
+                await this.context.SaveChangesAsync();
+                serviceResponse.Data = (this.context.Employees.Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
             } catch (Exception ex)
             {
                 serviceResponse.Success = false;
@@ -72,7 +69,8 @@ namespace EmployeeAPI.Services
             ServiceResponse<GetEmployeeDto> serviceResponse = new ServiceResponse<GetEmployeeDto>();
             try
             {
-                Employee employee = employees.FirstOrDefault(c => c.Id == updatedEmployee.Id);
+                Employee employee = await this.context.Employees.FirstOrDefaultAsync(c => c.Id == updatedEmployee.Id);
+
                 employee.FirstName = updatedEmployee.FirstName;
                 employee.LastName = updatedEmployee.LastName;
                 employee.BirthDate = updatedEmployee.BirthDate;
@@ -80,6 +78,10 @@ namespace EmployeeAPI.Services
                 employee.HomeAddress = updatedEmployee.HomeAddress;
                 employee.Boss = updatedEmployee.Boss;
                 employee.CurrentSalary = updatedEmployee.CurrentSalary;
+                employee.Role = updatedEmployee.Role;
+
+                this.context.Employees.Update(employee);
+                await this.context.SaveChangesAsync();
                 serviceResponse.Data = this.mapper.Map<GetEmployeeDto>(employee);
             } catch(Exception ex)
             {
