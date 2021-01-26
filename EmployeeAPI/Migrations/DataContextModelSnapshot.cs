@@ -29,6 +29,9 @@ namespace EmployeeAPI.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("BossId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EmploymentDate")
                         .HasColumnType("datetime2");
 
@@ -41,86 +44,15 @@ namespace EmployeeAPI.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Salary")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("EmployeeAPI.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int?>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FromDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RoleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ToDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("EmployeeRoles");
-                });
-
-            modelBuilder.Entity("EmployeeAPI.Models.Salary", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<double>("CurrentSalary")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FromDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ToDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("EmployeeSalaries");
-                });
-
-            modelBuilder.Entity("EmployeeAPI.Models.Role", b =>
-                {
-                    b.HasOne("EmployeeAPI.Models.Employee", "Employee")
-                        .WithMany("Roles")
-                        .HasForeignKey("EmployeeId");
-
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("EmployeeAPI.Models.Salary", b =>
-                {
-                    b.HasOne("EmployeeAPI.Models.Employee", "Employee")
-                        .WithMany("Salaries")
-                        .HasForeignKey("EmployeeId");
-
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("EmployeeAPI.Models.Employee", b =>
-                {
-                    b.Navigation("Roles");
-
-                    b.Navigation("Salaries");
                 });
 #pragma warning restore 612, 618
         }

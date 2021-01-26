@@ -11,9 +11,6 @@
     <Folder Include="SolutionData\" />
     <Folder Include="Utils\" />
     <Folder Include="Dtos\Employee\" />
-    <Folder Include="Dtos\Role\" />
-    <Folder Include="Dtos\Salary\" />
-    <Folder Include="Dtos\Boss\" />
   </ItemGroup>
 
 

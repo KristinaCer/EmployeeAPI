@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210126080115_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210126170154_Employee")]
+    partial class Employee
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,6 +31,9 @@ namespace EmployeeAPI.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("BossId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EmploymentDate")
                         .HasColumnType("datetime2");
 
@@ -42,6 +45,12 @@ namespace EmployeeAPI.Migrations
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Salary")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 

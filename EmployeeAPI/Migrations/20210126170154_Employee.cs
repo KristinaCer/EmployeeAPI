@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EmployeeAPI.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Employee : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,10 @@ namespace EmployeeAPI.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmploymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HomeAddress = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    HomeAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Salary = table.Column<double>(type: "float", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BossId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

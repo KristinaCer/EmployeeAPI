@@ -123,24 +123,7 @@ namespace EmployeeAPI.Services
                 serviceResponse.Success = false;
                 serviceResponse.Message = "First and Last Names cannot be the same.";
             }
-            if(employeeToValidate.EmploymentDate > DateTime.Now)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = "Employement date cannot be a future date.";
-            }
-            if (employeeToValidate.EmploymentDate < new DateTime(2000, 01, 01))
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = "Employement date cannot be earlier than 2000-01-01.";
-            }
-            int employeeAge = employeeToValidate.BirthDate.Year - DateTime.Now.Year;
-            if (employeeAge > 70 || employeeAge < 18)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = "Employee must be at least 18 years old and not older than 70 years.";
-            }
-            //@TODO add other required validations
-
+            //@TODO validate dates
             return serviceResponse;
         }
     }
