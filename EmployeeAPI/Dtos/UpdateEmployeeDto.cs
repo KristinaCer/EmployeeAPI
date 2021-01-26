@@ -12,6 +12,5 @@ namespace EmployeeAPI.Dtos
         public string HomeAddress { get; set; } = "UKNOWN";
         public double CurrentSalary { get; set; } = 1050.50;
         public string Role { get; set; } = "Software Developer";
-    
     }
 }

@@ -10,5 +10,7 @@ namespace EmployeeAPI.SolutionData
         {
         }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Role> EmployeeRoles { get; set; }
+        public DbSet<Salary> EmployeeSalaries{ get; set; }
     }
 }

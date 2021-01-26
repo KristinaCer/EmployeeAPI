@@ -76,10 +76,7 @@ namespace EmployeeAPI.Services
                 employee.BirthDate = updatedEmployee.BirthDate;
                 employee.EmploymentDate = updatedEmployee.EmploymentDate;
                 employee.HomeAddress = updatedEmployee.HomeAddress;
-                employee.Boss = updatedEmployee.Boss;
-                employee.CurrentSalary = updatedEmployee.CurrentSalary;
-                employee.Role = updatedEmployee.Role;
-
+             
                 this.context.Employees.Update(employee);
                 await this.context.SaveChangesAsync();
                 serviceResponse.Data = this.mapper.Map<GetEmployeeDto>(employee);
