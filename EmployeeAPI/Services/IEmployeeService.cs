@@ -9,7 +9,7 @@ namespace EmployeeAPI.Services
     {
         Task<ServiceResponse<List<GetEmployeeDto>>> GetAllEmployees();
         Task<ServiceResponse<GetEmployeeDto>> GetEmployeeById(int id);
-        Task<ServiceResponse<List<GetEmployeeDto>>> AddEmployee(AddEmployeeDto employee);
+        Task<ServiceResponse<GetEmployeeDto>> AddEmployee(AddEmployeeDto employee);
         Task<ServiceResponse<GetEmployeeDto>> UpdateEmployee(UpdateEmployeeDto employee);
         Task<ServiceResponse<List<GetEmployeeDto>>> DeleteEmployee(int id);
     }
