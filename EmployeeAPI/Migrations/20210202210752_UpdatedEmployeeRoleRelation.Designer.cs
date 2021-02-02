@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210126170154_Employee")]
-    partial class Employee
+    [Migration("20210202210752_UpdatedEmployeeRoleRelation")]
+    partial class UpdatedEmployeeRoleRelation
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,16 +38,18 @@ namespace EmployeeAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("HomeAddress")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<double>("Salary")
                         .HasColumnType("float");
@@ -55,6 +57,42 @@ namespace EmployeeAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("EmployeeAPI.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("EmployeeAPI.Models.Role", b =>
+                {
+                    b.HasOne("EmployeeAPI.Models.Employee", "Employee")
+                        .WithMany("Roles")
+                        .HasForeignKey("EmployeeId");
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("EmployeeAPI.Models.Employee", b =>
+                {
+                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }

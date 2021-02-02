@@ -10,7 +10,6 @@ namespace EmployeeAPI.Dtos
         public DateTime EmploymentDate { get; set; }
         public string HomeAddress { get; set; }
         public double Salary { get; set; }
-        public string Role { get; set; }
         public int BossId { get; set; }
     }
 }

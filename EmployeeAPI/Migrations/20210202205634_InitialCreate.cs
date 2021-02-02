@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EmployeeAPI.Migrations
 {
-    public partial class Employee : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,13 +13,12 @@ namespace EmployeeAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmploymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HomeAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HomeAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Salary = table.Column<double>(type: "float", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BossId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

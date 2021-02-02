@@ -4,14 +4,16 @@ using EmployeeAPI.SolutionData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EmployeeAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210202205634_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,42 +57,6 @@ namespace EmployeeAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("EmployeeAPI.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("EmployeeAPI.Models.Role", b =>
-                {
-                    b.HasOne("EmployeeAPI.Models.Employee", "Employee")
-                        .WithMany("Roles")
-                        .HasForeignKey("EmployeeId");
-
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("EmployeeAPI.Models.Employee", b =>
-                {
-                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }
