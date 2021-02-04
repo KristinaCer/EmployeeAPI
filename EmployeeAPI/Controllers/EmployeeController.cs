@@ -17,7 +17,7 @@ namespace EmployeeAPI.Controllers
         {
             this.employeeService = employeeService;
         }
-       // [Route("GetAll")]
+
         public async Task<IActionResult> Get()
         {
             return Ok(await this.employeeService.GetAllEmployees());
@@ -26,7 +26,13 @@ namespace EmployeeAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSingle(int id)
         {
-            return Ok(await this.employeeService.GetEmployeeById(id));
+            //@Todo properly validate the employee exists.
+            ServiceResponse<GetEmployeeDto> response = await this.employeeService.GetEmployeeById(id);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
         }
 
         [HttpPost]
@@ -50,6 +56,42 @@ namespace EmployeeAPI.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             ServiceResponse<List<GetEmployeeDto>> response = await this.employeeService.DeleteEmployee(id);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpGet("boss/{id}")]
+        public async Task<IActionResult> GetByBossId(int id)
+        {
+            //@Todo properly validate the author exists.
+            ServiceResponse<GetEmployeeDto> response = await this.employeeService.GetEmployeeByBossId(id);
+            if (response.Data == null)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpGet("count")]
+        public async Task<IActionResult> GetEmployeeCount()
+        {
+            //@Todo properly validate the author exists.
+            ServiceResponse<int> response = await this.employeeService.GetEmployeeCount();
+            if (response.Data == 0)
+            {
+                return NotFound(response);
+            }
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("/Employee/SearchByEmployeeName/{name}")]
+        public async Task<IActionResult> SearchEmployeeByName(string name)
+        {
+            ServiceResponse<List<GetEmployeeDto>> response = await this.employeeService.SearchEmployeeByName(name);
             if (response.Data == null)
             {
                 return NotFound(response);

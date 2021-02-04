@@ -42,7 +42,7 @@ namespace EmployeeAPI.Services
         public async Task<ServiceResponse<GetEmployeeDto>> GetEmployeeById(int id)
         {
             ServiceResponse<GetEmployeeDto> serviceResponse = new ServiceResponse<GetEmployeeDto>();
-            Employee dbEmployee = await this.context.Employees.FirstOrDefaultAsync(c => c.Id == id);
+            Employee dbEmployee = await this.context.Employees.Where(c => c.Id == id).FirstOrDefaultAsync();
             serviceResponse.Data = this.mapper.Map<GetEmployeeDto>(dbEmployee);
             return serviceResponse;
         }
@@ -76,18 +76,61 @@ namespace EmployeeAPI.Services
                 employee.BirthDate = updatedEmployee.BirthDate;
                 employee.EmploymentDate = updatedEmployee.EmploymentDate;
                 employee.HomeAddress = updatedEmployee.HomeAddress;
-                employee.BossId = updatedEmployee.BossId;
-                employee.Salary = updatedEmployee.Salary;
 
                 this.context.Employees.Update(employee);
                 await this.context.SaveChangesAsync();
                 serviceResponse.Data = this.mapper.Map<GetEmployeeDto>(employee);
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
             }
             return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetEmployeeDto>> GetEmployeeByBossId(int id)
+        {
+            ServiceResponse<GetEmployeeDto> serviceResponse = new ServiceResponse<GetEmployeeDto>();
+            Employee dbEmployee = await this.context.Employees.Where(c => c.BossId== id).FirstOrDefaultAsync();
+            serviceResponse.Data = this.mapper.Map<GetEmployeeDto>(dbEmployee);
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<List<GetEmployeeDto>>> SearchEmployeeByName(string name)
+        {
+            ServiceResponse<List<GetEmployeeDto>> serviceResponse = new ServiceResponse<List<GetEmployeeDto>>();
+            if (!String.IsNullOrEmpty(name))
+            {
+                List<Employee> dbEmployees = await this.context.Employees.ToListAsync();
+                serviceResponse.Data = (dbEmployees.Where(c => c.FirstName.StartsWith(name)).Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
+            } else
+            {
+                serviceResponse.Message = "Provided string is null or empty";
+            }
+                return serviceResponse;
+        }
+
+        public Task<ServiceResponse<List<GetEmployeeDto>>> SearchEmployeeByBirthdayInterval(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ServiceResponse<int>> GetEmployeeCount()
+        {
+            ServiceResponse<int> serviceResponse = new ServiceResponse<int>();
+            serviceResponse.Data = await this.context.Employees.CountAsync();
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<double>> GetAverageSalaryForRole(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ServiceResponse<GetEmployeeDto>> UpdateSalary(UpdateEmployeeDto employee)
+        {
+            throw new NotImplementedException();
         }
     }
 }
