@@ -1,24 +1,20 @@
-﻿using System;
+﻿using EmployeeAPI.Dtos;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeAPI.Utils.DataValidation
 {
     public class BirthDateValidation : ValidationAttribute
     {
-        public override bool IsValid(object value)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            DateTime dt;
-            bool parsed = DateTime.TryParse((string)value, out dt);
-            if (!parsed)
-            {
-                return false;
-            }
-            int age = calculateAge(dt);
+            var addEmployeeDto = (AddEmployeeDto)validationContext.ObjectInstance;
+            int age = calculateAge(addEmployeeDto.BirthDate);
             if ( age > 70 || age < 18)
             {
-                return false;
+                return new ValidationResult("Employee must be at least 18 years old and not older than 70 years.");
             }
-            return true;
+            return ValidationResult.Success;
         }
 
         public int calculateAge(DateTime dt)

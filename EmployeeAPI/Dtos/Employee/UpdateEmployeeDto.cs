@@ -3,6 +3,7 @@ namespace EmployeeAPI.Dtos
 {
     public class UpdateEmployeeDto
     {
+        //@Todo create a unified dto/model validation.
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

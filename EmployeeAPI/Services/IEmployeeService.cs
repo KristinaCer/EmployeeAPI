@@ -18,6 +18,5 @@ namespace EmployeeAPI.Services
         Task<ServiceResponse<int>> GetEmployeeCount();
         Task<ServiceResponse<double>> GetAverageSalaryForRole(int roleId);
         Task<ServiceResponse<GetEmployeeDto>> UpdateSalary(UpdateEmployeeDto employee);
-
     }
 }

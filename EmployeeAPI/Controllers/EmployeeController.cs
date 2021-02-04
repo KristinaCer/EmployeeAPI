@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using EmployeeAPI.Dtos;
 using EmployeeAPI.Models;
 using EmployeeAPI.Services;
+using EmployeeAPI.Utils.DataValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeAPI.Controllers
@@ -26,7 +27,7 @@ namespace EmployeeAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSingle(int id)
         {
-            //@Todo properly validate the employee exists.
+            //@Todo validate the employee exists.
             ServiceResponse<GetEmployeeDto> response = await this.employeeService.GetEmployeeById(id);
             if (response.Data == null)
             {
@@ -38,7 +39,9 @@ namespace EmployeeAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddEmployee(AddEmployeeDto newEmployee)
         {
-            return Ok(await this.employeeService.AddEmployee(newEmployee));
+            
+                return Ok(await this.employeeService.AddEmployee(newEmployee));
+            
         }
 
         [HttpPut]
@@ -66,7 +69,7 @@ namespace EmployeeAPI.Controllers
         [HttpGet("boss/{id}")]
         public async Task<IActionResult> GetByBossId(int id)
         {
-            //@Todo properly validate the author exists.
+            //@Todo validate the author exists.
             ServiceResponse<GetEmployeeDto> response = await this.employeeService.GetEmployeeByBossId(id);
             if (response.Data == null)
             {
@@ -78,7 +81,7 @@ namespace EmployeeAPI.Controllers
         [HttpGet("count")]
         public async Task<IActionResult> GetEmployeeCount()
         {
-            //@Todo properly validate the author exists.
+            //@Todo validate the author exists.
             ServiceResponse<int> response = await this.employeeService.GetEmployeeCount();
             if (response.Data == 0)
             {
@@ -87,8 +90,7 @@ namespace EmployeeAPI.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("/Employee/SearchByEmployeeName/{name}")]
+        [HttpGet("/Employee/SearchByEmployeeName/{name}")]
         public async Task<IActionResult> SearchEmployeeByName(string name)
         {
             ServiceResponse<List<GetEmployeeDto>> response = await this.employeeService.SearchEmployeeByName(name);
