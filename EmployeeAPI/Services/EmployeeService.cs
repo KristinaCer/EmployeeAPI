@@ -7,6 +7,7 @@ using EmployeeAPI.Dtos;
 using EmployeeAPI.Models;
 using EmployeeAPI.SolutionData;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace EmployeeAPI.Services
 {
@@ -14,11 +15,13 @@ namespace EmployeeAPI.Services
     {
         private readonly IMapper mapper;
         private readonly DataContext context;
+        private readonly ILogger<EmployeeService> logger;
 
-        public EmployeeService(IMapper mapper, DataContext context)
+        public EmployeeService(IMapper mapper, DataContext context, ILogger<EmployeeService> logger)
         {
             this.mapper = mapper;
             this.context = context;
+            this.logger = logger;
         }
 
         public async Task<ServiceResponse<List<GetEmployeeDto>>> AddEmployee(AddEmployeeDto newEmployee)
@@ -58,6 +61,7 @@ namespace EmployeeAPI.Services
                 serviceResponse.Data = (this.context.Employees.Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
             } catch (Exception ex)
             {
+                this.logger.LogError(ex.ToString());
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
             }
@@ -70,19 +74,18 @@ namespace EmployeeAPI.Services
             try
             {
                 Employee employee = await this.context.Employees.FirstOrDefaultAsync(c => c.Id == updatedEmployee.Id);
-
                 employee.FirstName = updatedEmployee.FirstName;
                 employee.LastName = updatedEmployee.LastName;
                 employee.BirthDate = updatedEmployee.BirthDate;
                 employee.EmploymentDate = updatedEmployee.EmploymentDate;
                 employee.HomeAddress = updatedEmployee.HomeAddress;
-
                 this.context.Employees.Update(employee);
                 await this.context.SaveChangesAsync();
                 serviceResponse.Data = this.mapper.Map<GetEmployeeDto>(employee);
             }
             catch (Exception ex)
             {
+                this.logger.LogError(ex.ToString());
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
             }
@@ -106,7 +109,8 @@ namespace EmployeeAPI.Services
                 serviceResponse.Data = (dbEmployees.Where(c => c.FirstName.StartsWith(name)).Select(c => this.mapper.Map<GetEmployeeDto>(c))).ToList();
             } else
             {
-                serviceResponse.Message = "Provided string is null or empty";
+                this.logger.LogError("Provided string is null or empty at SearchEmployeeByNameMethod().");
+                serviceResponse.Message = "Provided string is null or empty.";
             }
                 return serviceResponse;
         }

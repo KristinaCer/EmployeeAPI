@@ -7,7 +7,7 @@ using EmployeeAPI.Utils.DataValidation;
 namespace EmployeeAPI.Models
 {
     /*
-    For simplification, I assume that employee can have
+    For simplification, I assume that an employee can have
     only one boss.*/
     public class Employee
     {
