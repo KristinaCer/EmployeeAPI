@@ -1,5 +1,4 @@
-﻿using System;
-using EmployeeAPI.Models;
+﻿using EmployeeAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeAPI.SolutionData

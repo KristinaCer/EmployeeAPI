@@ -1,5 +1,4 @@
-﻿using System;
-namespace EmployeeAPI.Models
+﻿namespace EmployeeAPI.Models
 {
     public class ServiceResponse<T>
     {
